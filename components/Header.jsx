@@ -44,6 +44,7 @@ const Header = ({ user, dailyData, setDailyData, setTempPreference }) => {
        const status = (await axios.patch('api/users',{threshold: threshold})).status;
        if(status === 200){
         user.temperatureThreshold = threshold;
+        alert("Temperature threshold has been set");
        }
       }
     }
