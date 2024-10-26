@@ -83,7 +83,7 @@ const Landing = ({ profile }: any) => {
           city: selectedCity,
         },
       });
-      if(!profile.preferredUnit || (profile.preferredUnit != tempPreference && tempPreference)){
+      if(( !profile.preferredUnit && tempPreference) || (profile.preferredUnit != tempPreference && tempPreference)){
         profile.preferredUnit = tempPreference;
         const profileRes = await axios.post('api/users', {userId: profile.userId,preferredUnit: profile.preferredUnit  })
         profileRes.status === 200 && alert("Your preference has been set");
