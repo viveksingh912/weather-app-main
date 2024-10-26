@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+
+model User{
+  id String @id @default(uuid())
+  userId String @unique
+  name String
+  email String @db.Text
+  alerts Alert[]
+  dailyWeatherSummaries DailyWeatherSummary[]
+  temperatureThreshold Float?
+  preferredUnit String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([userId])
+  @@index([email])
+} 
+
+model Weather {
+  id          String   @id @default(uuid())
+  city        String
+  main        String
+  temperature Float
+  feelsLike   Float
+  timestamp   DateTime
+  userId      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@index([city])
+  @@index([timestamp])
+}
+
+model DailyWeatherSummary {
+  id            String   @id @default(uuid())
+  city          String
+  date          DateTime
+  avgTemp       Float
+  maxTemp       Float
+  minTemp       Float
+  dominantWeather String
+  userId        String?
+  user          User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  @@index([city])
+  @@index([date])
+}
+
+model Alert {
+  id           String   @id @default(uuid())
+  city         String
+  triggeredAt  DateTime
+  threshold    Float 
+  alertMessage String
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade) // Relation to User
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  @@index([city])
+  @@index([triggeredAt])
+}
