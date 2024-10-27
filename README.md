@@ -11,6 +11,8 @@ Visualizations: Displays a line graph for daily average temperature trends.
 Prerequisites
 ```
 Node.js and npm installed
+Line graph depends upon the weather summary data, So to show the line graph you've to click at least once on the generate summary button and referesh the page.
+To set the temperature threshold you've to give input in the input box and press enter
 ```
 Getting Started
 1. Clone the Repository
